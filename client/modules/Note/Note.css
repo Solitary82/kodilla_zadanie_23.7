@@ -1,1 +1,6 @@
-/* Note styles */
+.Note {
+    list-style-type: none;
+    background-color: #f0f8ff;
+    margin-top: 20px;
+    border-radius: 5px;
+}

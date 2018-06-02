@@ -31,18 +31,14 @@ export function getLanes(req, res) {
 }
 
 export function deleteLane(req, res) {
-  Lane.findOneAndRemove({ id: req.params.laneId }).exec((err, lane) => {
+  console.log(req.params.laneId);
+  Lane.findOne({ id: req.params.laneId }).exec((err, lane) => {
     if (err) {
       res.status(500).send(err);
     }
 
-    lane.notes.map((noteId) => {
-      Note.findOneAndRemove({ _id: noteId }).exec((err) => {
-        if (err) {
-          res.status(500).send(err);
-        }
-        res.status(200).end();
-      });
+    lane.remove(() => {
+      res.status(200).end();
     });
   });
 }
