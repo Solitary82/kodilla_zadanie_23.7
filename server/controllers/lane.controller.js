@@ -1,5 +1,4 @@
 import Lane from '../models/lane';
-import Note from '../models/note';
 
 import uuid from 'uuid';
 
@@ -31,7 +30,6 @@ export function getLanes(req, res) {
 }
 
 export function deleteLane(req, res) {
-  console.log(req.params.laneId);
   Lane.findOne({ id: req.params.laneId }).exec((err, lane) => {
     if (err) {
       res.status(500).send(err);

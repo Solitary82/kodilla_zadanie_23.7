@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import styles from './Note.css';
 import ItemTypes from '../Kanban/itemTypes';
-import {DragSource, DropTarget} from 'react-dnd';
-import {compose} from 'redux';
+import { DragSource, DropTarget } from 'react-dnd';
+import { compose } from 'redux';
 
 class Note extends React.Component {
 
@@ -21,9 +21,9 @@ class Note extends React.Component {
       <li
         className={styles.Note}
         style={{
-        opacity: isDragging ? 0 : 1,
+          opacity: isDragging ? 0 : 1,
         }}
-        >
+      >
           {children}
       </li>
       ));
@@ -33,18 +33,22 @@ class Note extends React.Component {
 
 Note.propTypes = {
   children: PropTypes.any,
+  connectDragSource: PropTypes.func,
+  connectDropTarget: PropTypes.func,
+  isDragging: PropTypes.bool,
+  editing: PropTypes.bool,
 };
 
 const noteSource = {
   beginDrag(props) {
     return {
-        id: props.id,
-        laneId: props.laneId,
+      id: props.id,
+      laneId: props.laneId,
     };
-},
-isDragging(props, monitor) {
-  return props.id === monitor.getItem().id;
-}
+  },
+  isDragging(props, monitor) {
+    return props.id === monitor.getItem().id;
+  },
 };
 
 const noteTarget = {
@@ -52,17 +56,17 @@ const noteTarget = {
     const sourceProps = monitor.getItem();
 
     if (targetProps.id !== sourceProps.id) {
-        targetProps.moveWithinLane(targetProps.laneId, targetProps.id, sourceProps.id);
+      targetProps.moveWithinLane(targetProps.laneId, targetProps.id, sourceProps.id);
     }
-}
-}; 
+  },
+};
 
 export default compose(
 DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging()
+  isDragging: monitor.isDragging(),
 })),
 DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({
-  connectDropTarget: connect.dropTarget()
-}))
+  connectDropTarget: connect.dropTarget(),
+})),
 )(Note);

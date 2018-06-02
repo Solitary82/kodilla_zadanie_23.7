@@ -5,14 +5,14 @@ import { compose } from 'redux';
 import { DropTarget } from 'react-dnd';
 import ItemTypes from '../Kanban/itemTypes';
 
-import { updateLaneRequest, deleteLaneRequest, moveBetweenLanes, removeFromLane, pushToLane, changeLanesRequest, createLaneRequest, fetchLanes } from "./LaneActions";
+import { updateLaneRequest, deleteLaneRequest, moveBetweenLanes, createLaneRequest, fetchLanes } from './LaneActions';
 import { createNote, createNoteRequest } from '../Note/NoteActions';
 
 const mapStateToProps = (state, ownProps) => {
   return {
     laneNotes: ownProps.lane.notes.map(noteId => {
       return { ...state.notes[noteId] }
-    })
+    }),
   };
 };
 
@@ -35,14 +35,13 @@ const noteTarget = {
         noteId,
         sourceLaneId,
      );
-   }
+    }
   },
 };
-
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   DropTarget(ItemTypes.NOTE, noteTarget, (dragConnect) => ({
-    connectDropTarget: dragConnect.dropTarget()
+    connectDropTarget: dragConnect.dropTarget(),
   }))
 )(Lane);

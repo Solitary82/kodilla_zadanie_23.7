@@ -53,15 +53,15 @@ export function deleteNote(noteId, laneId) {
 }
 
 export function editNote(noteId) {
-return {
+  return {
     type: EDIT_NOTE,
-    noteId
+    noteId,
   };
 }
 
 export function createNotes(notesData) {
-return {
-  type: CREATE_NOTES,
-  notes: notesData,
+  return {
+    type: CREATE_NOTES,
+    notes: notesData,
   };
 }
