@@ -8,7 +8,9 @@
 }
 
 .Lane {
-  min-height: 400px;
+  top: 40px;
+  position: relative;
+  min-height: 350px;
   height: auto;
   width: 30%;
   padding: 15px;
@@ -39,6 +41,12 @@
 .LaneAddNote {
   margin-top: 15px;
   border-top: 1px solid #eaeaea;
+}
+
+.AddLane {
+    left: 20px;
+    top: 100px;
+    position: absolute;
 }
 
 .LaneDelete button {

@@ -30,7 +30,6 @@ class Note extends React.Component {
   }
 }
 
-
 Note.propTypes = {
   children: PropTypes.any,
   connectDragSource: PropTypes.func,

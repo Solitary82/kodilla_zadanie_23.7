@@ -5,27 +5,27 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 
-// Webpack Requirements
+
 import webpack from 'webpack';
 import config from '../webpack.config.dev';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-// Initialize the Express App
+
 const app = new Express();
 
-// Set Development modes checks
+
 const isDevMode = process.env.NODE_ENV === 'development' || false;
 const isProdMode = process.env.NODE_ENV === 'production' || false;
 
-// Run Webpack dev server in development mode
+
 if (isDevMode) {
   const compiler = webpack(config);
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
   app.use(webpackHotMiddleware(compiler));
 }
 
-// React And Redux Setup
+
 import { configureStore } from '../client/store';
 import { Provider } from 'react-redux';
 import React from 'react';
@@ -33,29 +33,24 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import Helmet from 'react-helmet';
 
-// Import required modules
+
 import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
 import lanes from './routes/lane.routes';
 import notes from './routes/note.routes';
-import dummyData from './dummyData';
 import serverConfig from './config';
 
-// Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
-// MongoDB Connection
 mongoose.connect(serverConfig.mongoURL, (error) => {
   if (error) {
-    console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
+    console.error('Please make sure Mongodb is installed and running!');
     throw error;
   }
 
-  // feed some dummy data in DB.
-  dummyData();
+  console.log('Everything is OK');
 });
 
-// Apply body Parser and server public assets and routes
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
@@ -63,11 +58,9 @@ app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 app.use('/api', lanes);
 app.use('/api', notes);
 
-// Render Initial HTML
 const renderFullPage = (html, initialState) => {
   const head = Helmet.rewind();
 
-  // Import Manifests
   const assetsManifest = process.env.webpackAssets && JSON.parse(process.env.webpackAssets);
   const chunkManifest = process.env.webpackChunkAssets && JSON.parse(process.env.webpackChunkAssets);
 
@@ -108,7 +101,6 @@ const renderError = err => {
   return renderFullPage(`Server Error${errTrace}`, {});
 };
 
-// Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
   match({ routes, location: req.url }, (err, redirectLocation, renderProps) => {
     if (err) {
@@ -145,10 +137,9 @@ app.use((req, res, next) => {
   });
 });
 
-// start app
 app.listen(serverConfig.port, (error) => {
   if (!error) {
-    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); // eslint-disable-line
+    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); 
   }
 });
 
