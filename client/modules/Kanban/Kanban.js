@@ -11,10 +11,11 @@ import { compose } from 'redux';
 
 const Kanban = (props) => (
   <div>
-    <button className={styles.AddLane}
-    onClick={() => props.createLane({
-    name: 'New lane',
-    })}
+    <button
+      className={styles.AddLane}
+      onClick={() => props.createLane({
+        name: 'New lane',
+      })}
     >Add lane</button>
     <Lanes lanes={props.lanes} />
   </div>
@@ -24,16 +25,17 @@ Kanban.need = [() => { return fetchLanes(); }];
 
 Kanban.propTypes = {
   lanes: PropTypes.array,
-  createLaneRequest: PropTypes.func
+  createLaneRequest: PropTypes.func,
+  createLane: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-   lanes: Object.values(state.lanes) 
+  lanes: Object.values(state.lanes),
 });
 
 const mapDispatchToProps = {
-    ...laneActions,
-    createLane: createLaneRequest,
+  ...laneActions,
+  createLane: createLaneRequest,
 };
 
 export default compose(

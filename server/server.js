@@ -5,15 +5,12 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 
-
 import webpack from 'webpack';
 import config from '../webpack.config.dev';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-
 const app = new Express();
-
 
 const isDevMode = process.env.NODE_ENV === 'development' || false;
 const isProdMode = process.env.NODE_ENV === 'production' || false;
@@ -24,7 +21,6 @@ if (isDevMode) {
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
   app.use(webpackHotMiddleware(compiler));
 }
-
 
 import { configureStore } from '../client/store';
 import { Provider } from 'react-redux';
@@ -139,7 +135,7 @@ app.use((req, res, next) => {
 
 app.listen(serverConfig.port, (error) => {
   if (!error) {
-    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`); 
+    console.log(`MERN is running on port: ${serverConfig.port}! Build something amazing!`);
   }
 });
 

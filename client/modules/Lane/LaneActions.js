@@ -2,7 +2,7 @@ import callApi from '../../util/apiCaller';
 import { lanes } from '../../util/schema';
 import { normalize } from 'normalizr';
 
-import { createNotesRequest, createNotes, deleteNote } from "../Note/NoteActions";
+import { createNotesRequest, createNotes, deleteNote } from '../Note/NoteActions';
 
 export const CREATE_LANE = 'CREATE_LANE';
 export const UPDATE_LANE = 'UPDATE_LANE';
@@ -17,7 +17,7 @@ export function createLane(lane) {
     type: CREATE_LANE,
     lane: {
       ...lane,
-    }
+    },
   };
 }
 
@@ -27,21 +27,21 @@ export function createLaneRequest(lane) {
       dispatch(createLane(res));
     });
   };
-};
+}
 
 export function updateLane(lane) {
   return {
     type: UPDATE_LANE,
     lane,
-  }
+  };
 }
 
 export function updateLaneRequest(lane) {
   return (dispatch) => {
-    return callApi('lanes', 'put', {id: lane.id, name: lane.name}).then(laneResp => {
+    return callApi('lanes', 'put', { id: lane.id, name: lane.name }).then(laneResp => {
       dispatch(updateLane(lane));
-    })
-  }
+    });
+  };
 }
 
 export function editLane(laneId) {
@@ -54,20 +54,20 @@ export function editLane(laneId) {
 export function deleteLane(laneId) {
   return {
     type: DELETE_LANE,
-    laneId
+    laneId,
   };
 }
 
 export function deleteLaneRequest(lane) {
-  return(dispatch) => {
+  return (dispatch) => {
     Promise.all(lane.notes.map(noteId => callApi(`notes/${noteId}`, 'delete')))
     .then(() => {
       callApi(`lanes/${lane.id}`, 'delete')
-        .then( () => {
+        .then(() => {
           dispatch(deleteLane(lane.id));
-        })
-    } )
-  }
+        });
+    });
+  };
 }
 
 export function createLanes(lanesData) {
@@ -77,15 +77,15 @@ export function createLanes(lanesData) {
   };
 }
 
-export function  fetchLanes() {
+export function fetchLanes() {
   return (dispatch) => {
     return callApi('lanes').then(res => {
       const normalized = normalize(res.lanes, lanes);
-      const {lanes: normalizedLanes, notes} = normalized.entities;
+      const { lanes: normalizedLanes, notes } = normalized.entities;
       dispatch(createLanes(normalizedLanes));
-      dispatch(createNotes(notes))
-    })
-  }
+      dispatch(createNotes(notes));
+    });
+  };
 }
 
 export function moveBetweenLanes(targetLaneId, noteId, sourceLaneId) {
@@ -94,6 +94,6 @@ export function moveBetweenLanes(targetLaneId, noteId, sourceLaneId) {
     targetLaneId,
     noteId,
     sourceLaneId,
-  }
+  };
 }
 

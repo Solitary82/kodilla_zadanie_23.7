@@ -11,28 +11,28 @@ class Lane extends React.Component {
 
     return connectDropTarget(
       <div className={styles.Lane}>
-      <div className={styles.LaneDelete}>
-        <button onClick={() => deleteLane(lane)}>Remove Lane</button>
+        <div className={styles.LaneDelete}>
+          <button onClick={() => deleteLane(lane)}>Remove Lane</button>
+        </div>
+        <div className={styles.LaneHeader}>
+          <h4><Edit
+            className={styles.LaneName}
+            editing={lane.editing}
+            value={lane.name}
+            onValueClick={() => editLane(lane.id)}
+            onUpdate={name => updateLane({ ...lane, name, editing: false })}
+          /></h4>
+        </div>
+        <div className={styles.LaneAddNote}>
+          <button onClick={() => addNote({ task: 'New Note' }, laneId)}>Add Note</button>
+        </div>
+        <NotesContainer
+          notes={laneNotes}
+          laneId={laneId}
+        />
       </div>
-      <div className={styles.LaneHeader}>
-        <h4><Edit
-          className={styles.LaneName}
-          editing={lane.editing}
-          value={lane.name}
-          onValueClick={() => editLane(lane.id)}
-          onUpdate={name => updateLane({ ...lane, name, editing: false })}
-        /></h4>
-      </div>
-      <div className={styles.LaneAddNote}>
-          <button onClick={() => addNote({ task: 'New Note'}, laneId)}>Add Note</button>
-        </div>      
-      <NotesContainer
-        notes={laneNotes}
-        laneId={laneId}
-      />
-    </div>
     );
-  };
+  }
 }
 
 Lane.propTypes = {
@@ -42,6 +42,8 @@ Lane.propTypes = {
   updateLane: PropTypes.func,
   editing: PropTypes.bool,
   deleteLane: PropTypes.func,
+  editLane: PropTypes.func,
+  connectDropTarget: PropTypes.func,
 };
 
-export default Lane; 
+export default Lane;

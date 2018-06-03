@@ -11,7 +11,7 @@ import { createNote, createNoteRequest } from '../Note/NoteActions';
 const mapStateToProps = (state, ownProps) => {
   return {
     laneNotes: ownProps.lane.notes.map(noteId => {
-      return { ...state.notes[noteId] }
+      return { ...state.notes[noteId] };
     }),
   };
 };
