@@ -42,7 +42,12 @@ export function deleteLane(req, res) {
 }
 
 export function updateLane(req, res) {
-  Lane.findOneAndUpdate({ id: req.params.laneId }, req.body, { new: true }, (err, lane) => {
+  const lane = req.body;
+  if (!lane.id) {
+    res.status(403).end();
+  }
+
+  Lane.findOneAndUpdate({ id: lane.id }, lane, { new: true }, (err, updatedLane) => {
     if (err) {
       res.status(500).send(err);
     }

@@ -30,12 +30,16 @@ export function addNote(req, res) {
 }
 
 export function deleteNote(req, res) {
-  Note.findOne({ id: req.params.noteId }).exec((err, note) => {
+  Note.findOneAndRemove({ id: req.params.noteId }).exec((err, note) => {
     if (err) {
       res.status(500).send(err);
     }
-
-    note.remove(() => {
+    Lane.findOne({ notes: { $in: [note.id] } })
+    .then(lane => {
+      lane.notes.remove(note.id);
+      lane.save();
+    })
+    .then(() => {
       res.status(200).end();
     });
   });
